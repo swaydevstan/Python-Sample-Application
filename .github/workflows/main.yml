@@ -30,9 +30,10 @@ jobs:
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
     - run: |
-          
+            cd ./Docker
             docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/uberapp:${{ github.sha }} -f ./Docker/Dockerfile
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/uberapp:${{ github.sha }}
+            cd . .
 
   #Job 2 Deploy ACI ENV
   terraform:
