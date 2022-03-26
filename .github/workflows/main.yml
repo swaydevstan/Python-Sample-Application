@@ -12,7 +12,7 @@ jobs:
   # This workflow contains a single job called "build"
   terraform:
     name: Terraform Resorce Provision
-    runs-on: ubuntu-
+    runs-on: ubuntu-latest
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
