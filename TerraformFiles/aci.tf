@@ -1,27 +1,23 @@
-terraform {
-  backend "azurerm" {
-    resource_group_name  = "devops-hardway-azure-stanley"
-    storage_account_name = "devopsazurestanley"
-    container_name       = "tfstate"
-    key                  = "aciterraform.tfstate"
-  }
-}
+# terraform {
+#   backend "azurerm" {
+#     resource_group_name  = "devops-hardway-azure-stanley"
+#     storage_account_name = "devopsazurestanley"
+#     container_name       = "tfstate"
+#     key                  = "aciterraform.tfstate"
+#   }
+# }
 
-provider "azurerm" {
-    version = "~> 3.0"
-    features {}
-}
+# provider "azurerm" {
+#     version = "~> 3.0"
+#     features {}
+# }
 
-#Use existing resource group
-data "azurerm_resource_group" "rg" {
-  name = var.rg_name
-}
+# #Use existing resource group
+# data "azurerm_resource_group" "rg" {
+#   name = var.rg_name
+# }
 
 #Create Azure container instance
-data "azurerm_container_registry" "acr" {
-  name                = var.acr_name
-  resource_group_name = data.azurerm_resource_group.rg.name
-}
 
 resource "azurerm_container_group" "aci" {
   name                = var.aci_name
