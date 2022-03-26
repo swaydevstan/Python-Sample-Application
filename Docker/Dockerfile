@@ -3,7 +3,7 @@ FROM python:latest
 RUN mkdir /build
 WORKDIR /build
 
-COPY .. /build
+COPY . /build
 
 COPY ./requirements.txt /build
 
