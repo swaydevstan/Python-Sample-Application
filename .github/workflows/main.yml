@@ -48,7 +48,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: "./TerraformFiles"
+        working-directory: "../TerraformFiles"
     
     steps:
 
