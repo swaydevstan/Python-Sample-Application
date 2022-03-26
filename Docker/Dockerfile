@@ -3,9 +3,9 @@ FROM python:latest
 RUN mkdir /build
 WORKDIR /build
 
-COPY app /build
+COPY Python-Sample-Application /build
 
-COPY app/requirements.txt /build
+COPY Python-Sample-Application/requirements.txt /build
 
 RUN pip install -r requirements.txt
 
