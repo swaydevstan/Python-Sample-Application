@@ -22,7 +22,7 @@ variable "aci_name" {
     description = "container instance name"
 }
 
-variable "build_id" {
-  type        = string
-  description = "Build ID of  Pipeline"
-}
+# variable "build_id" {
+#   type        = string
+#   description = "Build ID of  Pipeline"
+# }
