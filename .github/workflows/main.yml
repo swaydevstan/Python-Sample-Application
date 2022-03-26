@@ -49,20 +49,20 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: "./TerraformFiles"
+        working-directory: "/TerraformFiles"
     
     steps:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
 
       - name: Terraform Init
-        run: terraform -chidr="./Terraformfiles" init
+        run: terraform -chdr="/Terraformfiles" init
 
       - name: Terraform Validate
-        run: terraform -chidr="./Terraformfiles" validate -no-color
+        run: terraform -chdr="/Terraformfiles" validate -no-color
 
       - name: Terraform Plan
-        run: terraform -chidr="./Terraformfiles" plan
+        run: terraform -chdr="/Terraformfiles" plan
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
