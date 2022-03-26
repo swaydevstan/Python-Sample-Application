@@ -33,7 +33,7 @@ jobs:
             cd ./Docker
             docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/uberapp:${{ github.sha }}
             docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/uberapp:${{ github.sha }}
-            cd . .
+            cd .
 
   #Job 2 Deploy ACI ENV
   terraform:
