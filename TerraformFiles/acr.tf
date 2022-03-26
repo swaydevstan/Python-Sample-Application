@@ -3,7 +3,7 @@ terraform {
     resource_group_name  = "devops-hardway-azure-stanley"
     storage_account_name = "devopsazurestanley"
     container_name       = "tfstate"
-    key                  = "terraform.tfstate"
+    key                  = "acrterraform.tfstate"
   }
 }
 

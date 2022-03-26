@@ -3,7 +3,7 @@ terraform {
     resource_group_name  = "devops-hardway-azure-stanley"
     storage_account_name = "devopsazurestanley"
     container_name       = "tfstate"
-    key                  = "terraform.tfstate"
+    key                  = "aciterraform.tfstate"
   }
 }
 
@@ -31,11 +31,11 @@ resource "azurerm_container_group" "aci" {
   dns_name_label      = "stanacidns"
   os_type             = "Linux"
 
-  image_registry_credential {
-    username = data.azurerm_container_registry.acr.admin_username
-    password = data.azurerm_container_registry.acr.admin_password
-    server   = data.azurerm_container_registry.acr.login_server
-  }
+  # image_registry_credential {
+  #   username = data.azurerm_container_registry.acr.admin_username
+  #   password = data.azurerm_container_registry.acr.admin_password
+  #   server   = data.azurerm_container_registry.acr.login_server
+  # }
 
   container {
     name   = "uberapp"
