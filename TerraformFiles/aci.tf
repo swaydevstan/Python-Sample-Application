@@ -35,7 +35,7 @@ resource "azurerm_container_group" "aci" {
 
   container {
     name   = "uberapp"
-    //image  = "${data.azurerm_container_registry.acr.login_server}/aci:${var.build_id}"
+    image  = "mcr.microsoft.com/azuredocs/aci-helloworld"
     cpu    = "0.5"
     memory = "1.5"
 
