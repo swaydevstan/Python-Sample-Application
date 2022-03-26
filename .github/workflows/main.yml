@@ -1,4 +1,4 @@
-name: Terraform Deploy Environment
+name: Deploy App
 
 # Controls when the workflow will run
 on:
@@ -9,10 +9,35 @@ on:
   workflow_dispatch:
 
 jobs:
-  # This workflow contains a single job called "build"
+  #Job1 build and push docker image to acr
+  build-and-push-image:
+    name: build docker image
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 'Build and push image'
+      uses: azure/docker-login@v1
+      with:
+        login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+        username: ${{ secrets.REGISTRY_USERNAME }}
+        password: ${{ secrets.REGISTRY_PASSWORD }}
+    - run: |
+            docker build . -t ${{ secrets.REGISTRY_LOGIN_SERVER }}/uberapp:${{ github.sha }}
+            docker push ${{ secrets.REGISTRY_LOGIN_SERVER }}/uberapp:${{ github.sha }}
+
+  #Job 2 Deploy ACI ENV
   terraform:
     name: Terraform Resorce Provision
     runs-on: ubuntu-latest
+    needs: build-and-push-image
     env:
       ARM_CLIENT_ID: ${{ secrets.AZURE_AD_CLIENT_ID }}
       ARM_CLIENT_SECRET: ${{ secrets.AZURE_AD_CLIENT_SECRET }}
@@ -24,9 +49,6 @@ jobs:
         shell: bash
     
     steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
-      uses: actions/checkout@v2
 
     # - name: 'Terraform Format'
     #   uses: hashicorp/terraform-github-actions@master
@@ -63,3 +85,18 @@ jobs:
         tf_actions_version: 0.14.8
         tf_actions_subcommand: 'apply'
         tf_actions_working_dir: "./TerraformFiles"
+  
+
+  #deploy image to azure container instance
+  deploy-to-aci:
+    needs: [build-and-push-image, terraform]
+    name: Deploy to Azure Container Instances
+    uses: 'azure/aci-deploy@v1'
+    with:
+      resource-group: ${{ secrets.RESOURCE_GROUP }}
+      dns-name-label: ${{ secrets.RESOURCE_GROUP }}${{ github.run_number }}
+      image: ${{ secrets.REGISTRY_LOGIN_SERVER }}/uberapp:${{ github.sha }}
+      registry-login-server: ${{ secrets.REGISTRY_LOGIN_SERVER }}
+      registry-username: ${{ secrets.REGISTRY_USERNAME }}
+      registry-password: ${{ secrets.REGISTRY_PASSWORD }}
+      name: uberapp
