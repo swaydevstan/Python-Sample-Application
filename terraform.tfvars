@@ -1,0 +1,2 @@
+name     = "devopsazurestan"
+location = "eastus"

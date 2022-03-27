@@ -11,7 +11,7 @@ on:
 jobs:
   #Job1 build and push docker image to acr
   build-and-push-image:
-    name: build docker image
+    name: Build Docker Image
     runs-on: ubuntu-latest
 
     steps:
@@ -52,56 +52,41 @@ jobs:
         # working-directory: "/TerraformFiles"
     
     steps:
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
+    - name: 'Terraform Format'
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 0.14.8
+        tf_actions_subcommand: 'fmt'
+        tf_actions_working_dir: "./TerraformFiles"
+          
+    - name: 'Terraform Init'
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 0.14.8
+        tf_actions_subcommand: 'init'
+        tf_actions_working_dir: "/TerraformFiles"
 
-      - name: Terraform Init
-        run: terraform -chdr="./Terraformfiles" init
+    - name: 'Terraform Validate'
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 0.14.8
+        tf_actions_subcommand: 'validate'
+        tf_actions_working_dir: "/TerraformFiles"
+      
+    - name: 'Terraform Plan'
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 0.14.8
+        tf_actions_subcommand: 'plan'
+        tf_actions_working_dir: "/TerraformFiles"
 
-      - name: Terraform Validate
-        run: terraform -chdr="./Terraformfiles" validate -no-color
-
-      - name: Terraform Plan
-        run: terraform -chdr="./Terraformfiles" plan
-
-      - name: Terraform Apply
-        run: terraform apply -auto-approve
-
-    # - name: 'Terraform Format'
-    #   uses: hashicorp/terraform-github-actions@master
-    #   with:
-    #     tf_actions_version: 0.14.8
-    #     tf_actions_subcommand: 'fmt'
-    #     tf_actions_working_dir: "./TerraformFiles"
-        
-    # - name: 'Terraform Init'
-    #   uses: hashicorp/terraform-github-actions@master
-    #   with:
-    #     tf_actions_version: 0.14.8
-    #     tf_actions_subcommand: 'init'
-    #     tf_actions_working_dir: "/TerraformFiles"
-  
-    # - name: 'Terraform Validate'
-    #   uses: hashicorp/terraform-github-actions@master
-    #   with:
-    #     tf_actions_version: 0.14.8
-    #     tf_actions_subcommand: 'validate'
-    #     tf_actions_working_dir: "/TerraformFiles"
-        
-    # - name: 'Terraform Plan'
-    #   uses: hashicorp/terraform-github-actions@master
-    #   with:
-    #     tf_actions_version: 0.14.8
-    #     tf_actions_subcommand: 'plan'
-    #     tf_actions_working_dir: "/TerraformFiles"
-
-    # - name: Terraform Apply
-    #   if: github.ref == 'refs/heads/master'
-    #   uses: hashicorp/terraform-github-actions@master
-    #   with:
-    #     tf_actions_version: 0.14.8
-    #     tf_actions_subcommand: 'apply'
-    #     tf_actions_working_dir: "/TerraformFiles"
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/master'
+      uses: hashicorp/terraform-github-actions@master
+      with:
+        tf_actions_version: 0.14.8
+        tf_actions_subcommand: 'apply'
+        tf_actions_working_dir: "/TerraformFiles"
   
 
   #deploy image to azure container instance
