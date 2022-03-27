@@ -106,6 +106,13 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: 'Azure CLI script delete existing container'
+      uses: azure/CLI@v1
+      with:
+        azcliversion: 2.30.0
+        inlineScript: |
+          az container delete --name acistanazure --resource-group "devops-hardway-azure-stanley" -y
       
     - name: deploy-image-aci
       uses: 'azure/aci-deploy@v1'
