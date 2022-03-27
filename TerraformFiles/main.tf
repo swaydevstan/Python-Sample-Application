@@ -20,10 +20,10 @@ data "azurerm_resource_group" "rg" {
 }
 
 #use existing container registry
-data "azurerm_container_registry" "acr" {
-  name                = var.acr_name
-  resource_group_name = "devops-hardway-azure-stanley"
-}
+# data "azurerm_container_registry" "acr" {
+#   name                = var.acr_name
+#   resource_group_name = "devops-hardway-azure-stanley"
+# }
 
 #Create Azure container instance
 
