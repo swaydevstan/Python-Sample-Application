@@ -49,7 +49,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: .
+        working-directory: ./TerraformFiles
     
     steps:
     - name: 'Terraform Format'
