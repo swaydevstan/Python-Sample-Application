@@ -21,8 +21,8 @@ data "azurerm_resource_group" "rg" {
 
 #use existing container registry
 data "azurerm_container_registry" "acr" {
-  name = var.acr_name
-  //resource_group_name = data.azurerm_resource_group.rg.name
+  name                = var.acr_name
+  resource_group_name = data.azurerm_resource_group.rg.name
 }
 
 #Create Azure container instance
