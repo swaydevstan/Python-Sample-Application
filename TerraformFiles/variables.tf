@@ -11,15 +11,15 @@ variable "location" {
 }
 
 variable "acr_name" {
-    type = string
-    default = "acrstanazure"
-    description = "container instance name"
+  type        = string
+  default     = "acrstanazure"
+  description = "container instance name"
 }
 
 variable "aci_name" {
-    type = string
-    default = "acistanazure"
-    description = "container instance name"
+  type        = string
+  default     = "acistanazure"
+  description = "container instance name"
 }
 
 # variable "build_id" {
